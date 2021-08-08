@@ -8,7 +8,7 @@ import (
 
 func main() {
 	args := os.Args[1:]
-	if len(args) == 0 {
+	if len(args) != 1 {
 		fmt.Println("Please provide a directory")
 		return
 	}
@@ -66,10 +66,16 @@ func main() {
 	// fmt.Printf("%s\n", names)
 	content, err := ioutil.ReadFile("summary.txt")
 
-	fmt.Printf(`.---------------------------------.
-| Scan completed!                 |
-| %-2d empty file(s) found.         |
-| Result stored in 'summary.txt'  |
-| 'summary.txt' size: %4d bytes  |
-'---------------------------------'`, count, len(content))
+	noun := "files"
+
+	if count == 1 {
+		noun = "file"
+	}
+
+	fmt.Printf(`
+Scan completed!
+%-2d empty %s found in %-10s
+Result stored in 'summary.txt'    
+File size: %4d bytes      
+`, count, noun, args[0], len(content))
 }
